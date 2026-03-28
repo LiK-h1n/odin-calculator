@@ -183,14 +183,19 @@ container.addEventListener("click", (event) => {
     updateDisplay(number);
     resetWasEqualTo();
   } else if (buttonID === "backspace") {
-      if (wasEqualTo) {
-        backspaceResult();
-        updateDisplay(result);
-      } else {
-        backspaceNumber();
-        updateDisplay(number);
-      }
-  } else if (buttonID === "minus" || buttonID === "divide" || buttonID === "multiply" || buttonID === "plus"){
+    if (wasEqualTo) {
+      backspaceResult();
+      updateDisplay(result);
+    } else {
+      backspaceNumber();
+      updateDisplay(number);
+    }
+  } else if (
+    buttonID === "minus" ||
+    buttonID === "divide" ||
+    buttonID === "multiply" ||
+    buttonID === "plus"
+  ) {
     if (operator !== "") {
       if (wasNumberAssigned) {
         if (!wasEqualTo) {
@@ -220,8 +225,7 @@ container.addEventListener("click", (event) => {
           resetWasEqualTo();
           operator = setOperator(buttonID);
         }
-      }
-      else {
+      } else {
         operator = setOperator(buttonID);
       }
     } else {
@@ -232,3 +236,38 @@ container.addEventListener("click", (event) => {
     }
   }
 });
+
+document.addEventListener("keydown", (event) => {
+  const keyName = event.key;
+
+  if (
+    keyName === "0" ||
+    keyName === "1" ||
+    keyName === "2" ||
+    keyName === "3" ||
+    keyName === "4" ||
+    keyName === "5" ||
+    keyName === "6" ||
+    keyName === "7" ||
+    keyName === "8" ||
+    keyName === "9"
+  ) {
+    if (wasEqualTo) {
+      resetNumber();
+      resetWasNumberAssigned();
+      resetResult();
+      resetOperator();
+      updateNumber(Number(keyName));
+      updateDisplay(number);
+    } else {
+      if (!wasNumberAssigned) {
+        setWasNumberAssigned();
+      }
+
+      updateNumber(Number(keyName));
+      updateDisplay(number);
+    }
+
+    resetWasEqualTo();
+  }
+})
